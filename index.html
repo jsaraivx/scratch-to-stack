@@ -5,275 +5,335 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scratch to Stack: AI Engineering</title>
     <style>
+        /* Importando fontes originais e modernas */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&display=swap');
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
-            line-height: 1.6;
+            /* Fonte principal para leitura (Inter) e Serif para títulos */
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfbf7;
+            color: #2c2c2c;
+            line-height: 1.7;
             margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 40px 20px;
         }
         
-        /* Cabeçalho */
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 50px 60px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            border-top: 6px solid #111;
+        }
+        
+        /* Cabeçalho "Editorial" */
         .header-container {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
         }
         h1 {
-            color: #2c3e50;
-            margin-bottom: 5px;
+            font-family: 'Playfair Display', serif;
+            color: #111;
+            font-size: 3.2em;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
         }
         .subtitle {
-            color: #7f8c8d;
+            font-family: 'Inter', sans-serif;
+            color: #666;
             font-size: 1.1em;
-            margin-bottom: 20px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        /* Sistema de Abas (Tabs) */
+        /* Sistema de Abas (Tabs) Clean */
         .tabs {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #ecf0f1;
-            padding-bottom: 10px;
+            gap: 20px;
+            margin-bottom: 40px;
         }
         .tab-btn {
             background-color: transparent;
-            border: 2px solid transparent;
-            color: #7f8c8d;
-            font-size: 1.1em;
-            font-weight: bold;
-            padding: 10px 20px;
+            border: none;
+            color: #888;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.05em;
+            font-weight: 600;
+            padding: 8px 15px;
             cursor: pointer;
-            border-radius: 5px;
             transition: all 0.3s ease;
+            position: relative;
         }
         .tab-btn:hover {
-            background-color: #f0f8ff;
-            color: #2980b9;
+            color: #111;
         }
         .tab-btn.active {
-            background-color: #2980b9;
-            color: #fff;
-            border-color: #2980b9;
+            color: #111;
         }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #111;
+        }
+        
         .tab-content {
             display: none;
-            animation: fadeIn 0.4s;
+            animation: fadeIn 0.5s ease-in-out;
         }
         .tab-content.active {
             display: block;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Barras de Progresso */
+        /* Barras de Progresso Minimalistas */
         .progress-container {
-            background-color: #ecf0f1;
-            border-radius: 8px;
-            height: 22px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            height: 14px;
             width: 100%;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             overflow: hidden;
             position: relative;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
         }
         .progress-bar {
-            background-color: #27ae60;
+            background-color: #111;
             height: 100%;
             width: 0%;
-            transition: width 0.4s ease;
+            transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .progress-text {
             position: absolute;
             width: 100%;
-            text-align: center;
-            top: 0;
-            left: 0;
+            text-align: right;
+            padding-right: 10px;
+            top: -25px; /* Movido para cima da barra */
             font-size: 0.85em;
-            font-weight: bold;
-            color: #2c3e50;
-            line-height: 22px;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.7);
+            font-weight: 600;
+            color: #555;
+            font-family: 'Inter', sans-serif;
         }
 
-        /* Estilos do Guia Teórico */
+        /* Estilos do Guia Teórico (Estilo Artigo) */
+        #tab-guia p {
+            font-size: 1.15em;
+            color: #444;
+            margin-bottom: 25px;
+        }
         .section-block {
-            margin-bottom: 40px;
-            padding: 20px;
-            border-radius: 8px;
-            background-color: #fdfdfd;
-            border: 1px solid #eee;
-            transition: background-color 0.3s;
+            margin-bottom: 50px;
+            padding: 0;
+            border: none;
+            background: transparent;
+            transition: opacity 0.3s;
         }
         .section-block.completed-section {
-            background-color: #f0fdf4;
-            border-color: #a3e4d7;
+            opacity: 0.5;
         }
         .section-block h2 {
-            color: #2980b9;
+            font-family: 'Playfair Display', serif;
+            color: #111;
+            font-size: 2em;
             margin-top: 0;
-            border-left: 4px solid #2980b9;
-            padding-left: 10px;
+            margin-bottom: 20px;
+            border: none;
+            padding: 0;
         }
         blockquote {
-            background-color: #e8f8f5;
-            border-left: 5px solid #1abc9c;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 5px 5px 0;
+            background-color: #fafafa;
+            border-left: 4px solid #111;
+            padding: 20px 25px;
+            margin: 30px 0;
+            font-family: 'Playfair Display', serif;
             font-style: italic;
-            color: #16a085;
+            font-size: 1.25em;
+            color: #333;
         }
         .formula {
-            background-color: #ecf0f1;
-            padding: 15px;
+            background-color: #fff;
+            padding: 20px;
             text-align: center;
-            border-radius: 5px;
-            font-family: monospace;
-            font-size: 1.2em;
-            margin: 20px 0;
+            border: 1px solid #eaeaea;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.1em;
+            margin: 30px 0;
+            color: #555;
         }
+        
+        /* Checkbox Elegante para o Guia */
         .read-check-container {
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px dashed #ddd;
+            margin-top: 30px;
             display: flex;
             align-items: center;
-            justify-content: flex-end;
+            justify-content: flex-start;
         }
         .guide-checkbox-label {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             cursor: pointer;
-            font-weight: bold;
-            color: #27ae60;
-            gap: 10px;
-            background: #eafaf1;
-            padding: 8px 15px;
-            border-radius: 5px;
-            transition: background 0.3s;
+            font-weight: 600;
+            font-size: 0.9em;
+            color: #111;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            gap: 12px;
+            transition: opacity 0.3s;
         }
         .guide-checkbox-label:hover {
-            background: #d5f5e3;
+            opacity: 0.7;
         }
-        .guide-checkbox-label input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
+        /* Custom Checkbox */
+        .guide-checkbox-label input[type="checkbox"],
+        .checkbox-label input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #111;
+            border-radius: 3px;
             cursor: pointer;
-            accent-color: #27ae60;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .guide-checkbox-label input[type="checkbox"]:checked,
+        .checkbox-label input[type="checkbox"]:checked {
+            background-color: #111;
+        }
+        .guide-checkbox-label input[type="checkbox"]:checked::after,
+        .checkbox-label input[type="checkbox"]:checked::after {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
         }
 
         /* Estilos da Trilha de Aulas */
         .course {
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
-        }
-        .course:last-child {
-            border-bottom: none;
+            margin-bottom: 60px;
         }
         .course-title {
-            color: #2980b9;
-            font-size: 1.5em;
-            margin-bottom: 15px;
-            border-left: 4px solid #2980b9;
-            padding-left: 10px;
+            font-family: 'Playfair Display', serif;
+            color: #111;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #111;
         }
         .module {
-            margin-left: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 35px;
         }
         .module-title {
-            color: #34495e;
-            font-size: 1.2em;
-            margin-bottom: 10px;
+            font-family: 'Inter', sans-serif;
+            color: #444;
+            font-size: 1.1em;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
         }
         ul.classes {
             list-style-type: none;
             padding-left: 0;
+            margin: 0;
         }
         li.class-item {
-            background: #fdfdfd;
-            margin-bottom: 8px;
-            padding: 12px 15px;
-            border-radius: 6px;
-            border: 1px solid #e0e0e0;
-            transition: background 0.3s ease, opacity 0.3s ease, transform 0.2s ease;
+            background: #fff;
+            margin-bottom: 0;
+            padding: 18px 0;
+            border-bottom: 1px solid #eaeaea;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
         }
-        li.class-item:hover {
-            background: #f0f8ff;
-            transform: translateX(3px);
+        li.class-item:last-child {
+            border-bottom: none;
         }
+        li.class-item:hover {
+            transform: translateX(5px);
+        }
+        
         li.class-item.completed {
-            background: #e8f8f5;
-            border-color: #a3e4d7;
-            opacity: 0.7;
+            opacity: 0.4;
         }
         li.class-item.completed a {
             text-decoration: line-through;
-            color: #7f8c8d;
         }
+
         .checkbox-label {
             display: flex;
             align-items: center;
-            width: 100%;
             cursor: pointer;
-            gap: 12px;
-        }
-        .checkbox-label input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            accent-color: #27ae60;
-        }
-        a.class-link {
-            text-decoration: none;
-            color: #16a085;
-            font-weight: 600;
-            flex-grow: 1;
-            line-height: 1.4;
-        }
-        a.class-link:hover {
-            color: #1abc9c;
-        }
-        .class-id {
-            font-size: 0.75em;
-            color: #fff;
-            background: #7f8c8d;
-            padding: 3px 7px;
-            border-radius: 4px;
-            white-space: nowrap;
-            font-weight: bold;
+            gap: 15px;
+            margin-right: 15px;
         }
         
+        a.class-link {
+            text-decoration: none;
+            color: #222;
+            font-weight: 400;
+            font-size: 1.05em;
+            flex-grow: 1;
+            line-height: 1.4;
+            transition: color 0.2s;
+        }
+        a.class-link:hover {
+            color: #666;
+        }
+        
+        /* Botão Reset Clean */
         .reset-btn {
             display: block;
-            margin: 30px auto 0;
-            padding: 10px 20px;
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 5px;
+            margin: 60px auto 0;
+            padding: 12px 30px;
+            background-color: transparent;
+            color: #999;
+            border: 1px solid #ddd;
+            border-radius: 4px;
             cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
         }
         .reset-btn:hover {
-            background-color: #c0392b;
+            color: #e74c3c;
+            border-color: #e74c3c;
+        }
+
+        /* Responsividade Básica */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            h1 {
+                font-size: 2.5em;
+            }
+            li.class-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .checkbox-label {
+                margin-bottom: 10px;
+            }
         }
     </style>
 </head>
@@ -281,22 +341,23 @@
 
 <div class="container">
     <div class="header-container">
-        <h1>🚀 Scratch to Stack</h1>
-        <div class="subtitle">Trilha de Estudo: Modern AI Engineering</div>
+        <h1>Scratch to Stack</h1>
+        <div class="subtitle">Modern AI Engineering</div>
     </div>
 
     <div class="tabs">
-        <button class="tab-btn active" onclick="openTab('tab-guia', this)">📖 Guia Teórico</button>
-        <button class="tab-btn" onclick="openTab('tab-trilha', this)">🎥 Trilha de Aulas</button>
+        <button class="tab-btn active" onclick="openTab('tab-guia', this)">Guia Teórico</button>
+        <button class="tab-btn" onclick="openTab('tab-trilha', this)">Trilha de Aulas</button>
     </div>
 
     <div id="tab-guia" class="tab-content active">
+        
+        <div class="progress-text" id="guide-progress-text">0% LIDO</div>
         <div class="progress-container">
             <div class="progress-bar" id="guide-progress-bar"></div>
-            <div class="progress-text" id="guide-progress-text">0% da Teoria Lida</div>
         </div>
 
-        <p style="text-align: center; font-size: 1.1em; margin-bottom: 30px; color: #555;">A Inteligência Artificial deixou de ser apenas um "chatbot" que prevê a próxima palavra. Hoje, ela é o motor de sistemas complexos. O AI Engineer moderno precisa saber <strong>conectar, organizar e orquestrar</strong> a IA com dados do mundo real.</p>
+        <p style="font-family: 'Playfair Display', serif; font-size: 1.4em; text-align: center; color: #111; margin-bottom: 50px;">A Inteligência Artificial deixou de ser apenas um "chatbot" que prevê a próxima palavra. Hoje, ela é o motor de sistemas complexos. O AI Engineer moderno precisa saber conectar, organizar e orquestrar a IA com dados do mundo real.</p>
         
         <div class="section-block" id="section-1">
             <h2>1. A Base: Python e Comunicação Rápida</h2>
@@ -308,7 +369,7 @@
             <div class="read-check-container">
                 <label class="guide-checkbox-label">
                     <input type="checkbox" id="check-1" onchange="toggleGuideProgress(1)">
-                    Marcar Seção 1 como Lida
+                    Marcar como lido
                 </label>
             </div>
         </div>
@@ -326,7 +387,7 @@
             <div class="read-check-container">
                 <label class="guide-checkbox-label">
                     <input type="checkbox" id="check-2" onchange="toggleGuideProgress(2)">
-                    Marcar Seção 2 como Lida
+                    Marcar como lido
                 </label>
             </div>
         </div>
@@ -341,12 +402,12 @@
                 <li><strong>Geração:</strong> A IA lê os textos e formula a resposta.</li>
             </ul>
             <blockquote>
-                <strong>RAGs Avançados (Self-RAG e CRAG):</strong> Ensinam a IA a avaliar a própria resposta e decidir se precisa pesquisar na web para complementar dados.
+                RAGs Avançados (Self-RAG e CRAG): Ensinam a IA a avaliar a própria resposta e decidir se precisa pesquisar na web para complementar dados.
             </blockquote>
             <div class="read-check-container">
                 <label class="guide-checkbox-label">
                     <input type="checkbox" id="check-3" onchange="toggleGuideProgress(3)">
-                    Marcar Seção 3 como Lida
+                    Marcar como lido
                 </label>
             </div>
         </div>
@@ -363,7 +424,7 @@
             <div class="read-check-container">
                 <label class="guide-checkbox-label">
                     <input type="checkbox" id="check-4" onchange="toggleGuideProgress(4)">
-                    Marcar Seção 4 como Lida
+                    Marcar como lido
                 </label>
             </div>
         </div>
@@ -379,21 +440,22 @@
             <div class="read-check-container">
                 <label class="guide-checkbox-label">
                     <input type="checkbox" id="check-5" onchange="toggleGuideProgress(5)">
-                    Marcar Seção 5 como Lida
+                    Marcar como lido
                 </label>
             </div>
         </div>
     </div>
 
     <div id="tab-trilha" class="tab-content">
+        
+        <div class="progress-text" id="trail-progress-text">0% CONCLUÍDO</div>
         <div class="progress-container">
             <div class="progress-bar" id="trail-progress-bar"></div>
-            <div class="progress-text" id="trail-progress-text">0% Concluído</div>
         </div>
         
         <div id="app"></div> </div>
     
-    <button class="reset-btn" onclick="resetAllProgress()">Zerar Todo o Progresso (Guia e Aulas)</button>
+    <button class="reset-btn" onclick="resetAllProgress()">Resetar Progresso</button>
 </div>
 
 <script>
@@ -435,7 +497,7 @@
         
         const percentage = Math.round((completed / totalSections) * 100);
         document.getElementById('guide-progress-bar').style.width = percentage + '%';
-        document.getElementById('guide-progress-text').innerText = `${percentage}% da Teoria Lida`;
+        document.getElementById('guide-progress-text').innerText = `${percentage}% LIDO`;
     }
 
     function toggleGuideProgress(id) {
@@ -459,10 +521,10 @@
             {
               "title": "Nivelamento Python e FastAPI",
               "classes": [
-                { "classId": "genai-1-1", "title": "Python para IA: Revisão Rápida (Sintaxe, Dicionários, Listas)", "link": "https://www.youtube.com/watch?v=rfscVS0vtbw" },
+                { "classId": "genai-1-1", "title": "Python para IA: Revisão Rápida", "link": "https://www.youtube.com/watch?v=rfscVS0vtbw" },
                 { "classId": "genai-1-2", "title": "Criando APIs performáticas com FastAPI", "link": "https://www.youtube.com/watch?v=R26iojTwUv8" },
                 { "classId": "genai-1-3", "title": "Pydantic: Validação de Dados", "link": "https://docs.pydantic.dev/latest/concepts/models/" },
-                { "classId": "genai-1-4", "title": "Trabalhando com Variáveis de Ambiente (.env)", "link": "https://pypi.org/project/python-dotenv/" }
+                { "classId": "genai-1-4", "title": "Variáveis de Ambiente (.env)", "link": "https://pypi.org/project/python-dotenv/" }
               ]
             }
           ]
@@ -574,7 +636,7 @@
         const percentage = totalClasses === 0 ? 0 : Math.round((completedClasses / totalClasses) * 100);
         
         document.getElementById('trail-progress-bar').style.width = percentage + '%';
-        document.getElementById('trail-progress-text').innerText = `${percentage}% Concluído (${completedClasses} de ${totalClasses})`;
+        document.getElementById('trail-progress-text').innerText = `${percentage}% CONCLUÍDO`;
     }
 
     function toggleTrailProgress(classId) {
@@ -611,7 +673,6 @@
                         <li class="class-item ${isCompleted ? 'completed' : ''}" id="li-${cls.classId}">
                             <label class="checkbox-label">
                                 <input type="checkbox" id="${cls.classId}" onchange="toggleTrailProgress('${cls.classId}')" ${isCompleted ? 'checked' : ''}>
-                                <span class="class-id">${cls.classId}</span>
                             </label>
                             <a href="${cls.link}" target="_blank" rel="noopener noreferrer" class="class-link">${cls.title}</a>
                         </li>`;
@@ -629,7 +690,7 @@
 
     // --- FUNÇÃO GLOBAL DE RESET ---
     function resetAllProgress() {
-        if (confirm("Tem certeza que deseja zerar todo o seu progresso (Guia Teórico e Aulas)?")) {
+        if (confirm("Tem certeza que deseja zerar todo o seu progresso?")) {
             // Limpa o guia
             for(let i = 1; i <= totalSections; i++) {
                 localStorage.removeItem('guia-read-' + i);
