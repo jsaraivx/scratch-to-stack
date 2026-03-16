@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trilha de Estudo: Modern AI Engineering</title>
+    <title>Scratch to Stack: AI Engineering</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -21,10 +21,34 @@
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-        h1 {
+        
+        /* Navegação e Cabeçalho */
+        .header-container {
             text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
             color: #2c3e50;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+        .guide-link {
+            display: inline-block;
+            text-decoration: none;
+            color: #fff;
+            background-color: #8e44ad;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+            margin-bottom: 20px;
+        }
+        .guide-link:hover {
+            background-color: #9b59b6;
         }
         
         /* Barra de Progresso */
@@ -57,6 +81,7 @@
             text-shadow: 1px 1px 2px rgba(255,255,255,0.7);
         }
 
+        /* Estilos dos Módulos */
         .course {
             margin-bottom: 40px;
             padding-bottom: 20px;
@@ -124,14 +149,14 @@
             cursor: pointer;
             accent-color: #27ae60;
         }
-        a {
+        a.class-link {
             text-decoration: none;
             color: #16a085;
             font-weight: 600;
             flex-grow: 1;
             line-height: 1.4;
         }
-        a:hover {
+        a.class-link:hover {
             color: #1abc9c;
         }
         .class-id {
@@ -146,7 +171,7 @@
         
         .reset-btn {
             display: block;
-            margin: 20px auto 0;
+            margin: 30px auto 0;
             padding: 10px 20px;
             background-color: #e74c3c;
             color: white;
@@ -164,20 +189,26 @@
 <body>
 
 <div class="container">
-    <div id="header"></div>
+    <div class="header-container">
+        <h1>Scratch to Stack</h1>
+        <div class="subtitle">Trilha de Estudo: Modern AI Engineering</div>
+        <a href="guide.html" class="guide-link">📖 Ler o Guia de Fundamentos (Recomendado para Iniciantes)</a>
+    </div>
+
     <div class="progress-container">
         <div class="progress-bar" id="progress-bar"></div>
         <div class="progress-text" id="progress-text">0% Concluído</div>
     </div>
+    
     <div id="app"></div>
     
     <button class="reset-btn" onclick="resetProgress()">Zerar Progresso</button>
 </div>
 
 <script>
+    // JSON da Trilha Focado em GenAI
     const learningPath = {
       "slug": "ai-engineering-genai",
-      "title": "Modern AI Engineering (GenAI & LLMs)",
       "courses": [
         {
           "title": "1. Fundamentos: Python & APIs",
@@ -335,8 +366,6 @@
     }
 
     function renderApp() {
-        document.getElementById('header').innerHTML = `<h1>${learningPath.title}</h1>`;
-        
         let html = '';
         
         learningPath.courses.forEach(course => {
@@ -358,7 +387,7 @@
                                 <input type="checkbox" id="${cls.classId}" onchange="toggleProgress('${cls.classId}')" ${isCompleted ? 'checked' : ''}>
                                 <span class="class-id">${cls.classId}</span>
                             </label>
-                            <a href="${cls.link}" target="_blank" rel="noopener noreferrer">${cls.title}</a>
+                            <a href="${cls.link}" target="_blank" rel="noopener noreferrer" class="class-link">${cls.title}</a>
                         </li>`;
                 });
                 
