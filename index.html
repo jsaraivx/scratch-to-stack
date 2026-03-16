@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilha de Estudo: Modern AI Engineering</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        /* Barra de Progresso */
+        .progress-container {
+            background-color: #ecf0f1;
+            border-radius: 8px;
+            height: 22px;
+            width: 100%;
+            margin-bottom: 30px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .progress-bar {
+            background-color: #27ae60;
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+        .progress-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 0;
+            left: 0;
+            font-size: 0.85em;
+            font-weight: bold;
+            color: #2c3e50;
+            line-height: 22px;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.7);
+        }
+
+        .course {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .course:last-child {
+            border-bottom: none;
+        }
+        .course-title {
+            color: #2980b9;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            border-left: 4px solid #2980b9;
+            padding-left: 10px;
+        }
+        .module {
+            margin-left: 15px;
+            margin-bottom: 20px;
+        }
+        .module-title {
+            color: #34495e;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        ul.classes {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        li.class-item {
+            background: #fdfdfd;
+            margin-bottom: 8px;
+            padding: 12px 15px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            transition: background 0.3s ease, opacity 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+        li.class-item:hover {
+            background: #f0f8ff;
+            transform: translateX(3px);
+        }
+        
+        /* Estilo para itens concluídos */
+        li.class-item.completed {
+            background: #e8f8f5;
+            border-color: #a3e4d7;
+            opacity: 0.7;
+        }
+        li.class-item.completed a {
+            text-decoration: line-through;
+            color: #7f8c8d;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            cursor: pointer;
+            gap: 12px;
+        }
+        .checkbox-label input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #27ae60;
+        }
+        a {
+            text-decoration: none;
+            color: #16a085;
+            font-weight: 600;
+            flex-grow: 1;
+            line-height: 1.4;
+        }
+        a:hover {
+            color: #1abc9c;
+        }
+        .class-id {
+            font-size: 0.75em;
+            color: #fff;
+            background: #7f8c8d;
+            padding: 3px 7px;
+            border-radius: 4px;
+            white-space: nowrap;
+            font-weight: bold;
+        }
+        
+        .reset-btn {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .reset-btn:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="header"></div>
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+        <div class="progress-text" id="progress-text">0% Concluído</div>
+    </div>
+    <div id="app"></div>
+    
+    <button class="reset-btn" onclick="resetProgress()">Zerar Progresso</button>
+</div>
+
+<script>
+    const learningPath = {
+      "slug": "ai-engineering-genai",
+      "title": "Modern AI Engineering (GenAI & LLMs)",
+      "courses": [
+        {
+          "title": "1. Fundamentos: Python & APIs",
+          "modules": [
+            {
+              "title": "Nivelamento Python e FastAPI",
+              "classes": [
+                { "classId": "genai-1-1", "title": "Python para IA: Revisão Rápida (Sintaxe, Dicionários, Listas)", "link": "https://www.youtube.com/watch?v=rfscVS0vtbw" },
+                { "classId": "genai-1-2", "title": "Criando APIs performáticas com FastAPI", "link": "https://www.youtube.com/watch?v=R26iojTwUv8" },
+                { "classId": "genai-1-3", "title": "Pydantic: Validação de Dados (Essencial para saídas estruturadas de IA)", "link": "https://docs.pydantic.dev/latest/concepts/models/" },
+                { "classId": "genai-1-4", "title": "Trabalhando com Variáveis de Ambiente (.env) e Segurança de Chaves", "link": "https://pypi.org/project/python-dotenv/" }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "2. LLMs & Prompt Engineering",
+          "modules": [
+            {
+              "title": "Dominando Modelos Fundacionais",
+              "classes": [
+                { "classId": "genai-2-1", "title": "O que são LLMs e como eles realmente funcionam? (Andrej Karpathy)", "link": "https://www.youtube.com/watch?v=zjkBMFhNj_g" },
+                { "classId": "genai-2-2", "title": "Prompt Engineering Guide (OpenAI Official Docs)", "link": "https://platform.openai.com/docs/guides/prompt-engineering" },
+                { "classId": "genai-2-3", "title": "Técnicas Avançadas: Zero-shot, Few-shot e Chain-of-Thought (CoT)", "link": "https://www.promptingguide.ai/techniques" },
+                { "classId": "genai-2-4", "title": "Consumindo a API da OpenAI (Python Quickstart)", "link": "https://platform.openai.com/docs/quickstart" },
+                { "classId": "genai-2-5", "title": "Consumindo Modelos Open Source via Groq ou Ollama", "link": "https://console.groq.com/docs/quickstart" }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "3. Embeddings & Vector Databases",
+          "modules": [
+            {
+              "title": "A Memória Semântica da IA",
+              "classes": [
+                { "classId": "genai-3-1", "title": "O que são Text Embeddings? (Intuição Visual)", "link": "https://platform.openai.com/docs/guides/embeddings" },
+                { "classId": "genai-3-2", "title": "Matemática Básica: Cosine Similarity e Distância Vetorial", "link": "https://www.pinecone.io/learn/vector-similarity/" },
+                { "classId": "genai-3-3", "title": "O que é um Vector Database? (Crash Course)", "link": "https://www.youtube.com/watch?v=klTvEwg3oJ4" },
+                { "classId": "genai-3-4", "title": "Mão na massa: Usando ChromaDB (Open Source)", "link": "https://docs.trychroma.com/getting-started" },
+                { "classId": "genai-3-5", "title": "Mão na massa: Pinecone (SaaS / Cloud)", "link": "https://docs.pinecone.io/guides/get-started/quickstart" }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "4. Frameworks de Orquestração (GenAI)",
+          "modules": [
+            {
+              "title": "LangChain & LlamaIndex",
+              "classes": [
+                { "classId": "genai-4-1", "title": "Introdução ao LangChain: Chains e Prompts", "link": "https://python.langchain.com/docs/get_started/introduction" },
+                { "classId": "genai-4-2", "title": "LangChain Expression Language (LCEL)", "link": "https://python.langchain.com/docs/expression_language/" },
+                { "classId": "genai-4-3", "title": "LlamaIndex: O Framework focado em Ingestão de Dados", "link": "https://docs.llamaindex.ai/en/stable/getting_started/concepts/" },
+                { "classId": "genai-4-4", "title": "Comparativo: Quando usar LangChain vs LlamaIndex", "link": "https://www.youtube.com/watch?v=lDtcB0XlE-0" }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "5. Arquitetura RAG (Retrieval-Augmented Generation)",
+          "modules": [
+            {
+              "title": "RAG Básico ao Avançado",
+              "classes": [
+                { "classId": "genai-5-1", "title": "O que é RAG? Construindo um RAG do zero (Vídeo LangChain)", "link": "https://www.youtube.com/watch?v=wd7TZ4w1mSw" },
+                { "classId": "genai-5-2", "title": "Estratégias de Chunking (Como fatiar seus documentos)", "link": "https://www.pinecone.io/learn/chunking-strategies/" },
+                { "classId": "genai-5-3", "title": "Advanced RAG: Hybrid Search (Keyword + Semantic)", "link": "https://weaviate.io/blog/hybrid-search-explained" },
+                { "classId": "genai-5-4", "title": "Advanced RAG: Re-ranking com Cohere ou BGE", "link": "https://docs.cohere.com/docs/reranking" }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "6. Agentic AI & Tool Calling",
+          "modules": [
+            {
+              "title": "Sistemas Autônomos e Uso de Ferramentas",
+              "classes": [
+                { "classId": "genai-6-1", "title": "Function Calling (Tool Calling) - A base dos Agentes", "link": "https://platform.openai.com/docs/guides/function-calling" },
+                { "classId": "genai-6-2", "title": "O que são Agentes de IA? (Padrão ReAct)", "link": "https://www.promptingguide.ai/techniques/react" },
+                { "classId": "genai-6-3", "title": "Construindo fluxos multi-agente com LangGraph", "link": "https://www.youtube.com/watch?v=NDGBKN8hZGM" },
+                { "classId": "genai-6-4", "title": "CrewAI: Orquestrando equipes de Agentes Autônomos", "link": "https://docs.crewai.com/" }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "7. LLMOps & Deploy",
+          "modules": [
+            {
+              "title": "Colocando IA em Produção com Qualidade",
+              "classes": [
+                { "classId": "genai-7-1", "title": "Saídas Estruturadas (Structured Outputs & JSON Mode)", "link": "https://platform.openai.com/docs/guides/structured-outputs" },
+                { "classId": "genai-7-2", "title": "Observabilidade e Tracing com LangSmith", "link": "https://docs.smith.langchain.com/" },
+                { "classId": "genai-7-3", "title": "Avaliação de RAG: Como medir Alucinações com RAGAS", "link": "https://docs.ragas.io/en/latest/concepts/metrics/index.html" },
+                { "classId": "genai-7-4", "title": "Deploy Rápido de Interfaces de IA com Streamlit", "link": "https://docs.streamlit.io/get-started" }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    let totalClasses = 0;
+
+    function updateProgress() {
+        let completedClasses = 0;
+        
+        learningPath.courses.forEach(course => {
+            course.modules.forEach(mod => {
+                mod.classes.forEach(cls => {
+                    if (localStorage.getItem(cls.classId) === 'completed') {
+                        completedClasses++;
+                    }
+                });
+            });
+        });
+
+        const percentage = totalClasses === 0 ? 0 : Math.round((completedClasses / totalClasses) * 100);
+        
+        document.getElementById('progress-bar').style.width = percentage + '%';
+        document.getElementById('progress-text').innerText = `${percentage}% Concluído (${completedClasses} de ${totalClasses})`;
+    }
+
+    function toggleProgress(classId) {
+        const checkbox = document.getElementById(classId);
+        const listItem = document.getElementById(`li-${classId}`);
+
+        if (checkbox.checked) {
+            localStorage.setItem(classId, 'completed');
+            listItem.classList.add('completed');
+        } else {
+            localStorage.removeItem(classId);
+            listItem.classList.remove('completed');
+        }
+        updateProgress();
+    }
+
+    function resetProgress() {
+        if (confirm("Tem certeza que deseja zerar todo o seu progresso?")) {
+            learningPath.courses.forEach(course => {
+                course.modules.forEach(mod => {
+                    mod.classes.forEach(cls => {
+                        localStorage.removeItem(cls.classId);
+                        const checkbox = document.getElementById(cls.classId);
+                        const listItem = document.getElementById(`li-${cls.classId}`);
+                        if (checkbox) checkbox.checked = false;
+                        if (listItem) listItem.classList.remove('completed');
+                    });
+                });
+            });
+            updateProgress();
+        }
+    }
+
+    function renderApp() {
+        document.getElementById('header').innerHTML = `<h1>${learningPath.title}</h1>`;
+        
+        let html = '';
+        
+        learningPath.courses.forEach(course => {
+            html += `<div class="course">
+                        <h2 class="course-title">${course.title}</h2>`;
+            
+            course.modules.forEach(mod => {
+                html += `<div class="module">
+                            <h3 class="module-title">${mod.title}</h3>
+                            <ul class="classes">`;
+                
+                mod.classes.forEach(cls => {
+                    totalClasses++; 
+                    const isCompleted = localStorage.getItem(cls.classId) === 'completed';
+                    
+                    html += `
+                        <li class="class-item ${isCompleted ? 'completed' : ''}" id="li-${cls.classId}">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="${cls.classId}" onchange="toggleProgress('${cls.classId}')" ${isCompleted ? 'checked' : ''}>
+                                <span class="class-id">${cls.classId}</span>
+                            </label>
+                            <a href="${cls.link}" target="_blank" rel="noopener noreferrer">${cls.title}</a>
+                        </li>`;
+                });
+                
+                html += `   </ul>
+                         </div>`;
+            });
+            html += `</div>`;
+        });
+
+        document.getElementById('app').innerHTML = html;
+        updateProgress();
+    }
+
+    renderApp();
+
+</script>
+
+</body>
+</html>
