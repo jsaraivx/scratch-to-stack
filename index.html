@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scratch to Stack: AI Engineering</title>
     <style>
-        /* Fontes originais e modernas */
+        /* Importando fontes originais e modernas */
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
 
         /* Sistema de Cores (Estilo Claude / Warm Theme) */
@@ -39,6 +39,10 @@
             --completed-text: #6b6962;
             --formula-bg: #191816;
             --shadow: rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
@@ -96,6 +100,7 @@
             font-size: 3.2em;
             font-weight: 700;
             letter-spacing: -1px;
+            margin-top: 0;
             margin-bottom: 10px;
         }
         .subtitle {
@@ -107,7 +112,7 @@
             letter-spacing: 2px;
         }
 
-        /* Sistema de Abas (Tabs) */
+        /* Sistema de Abas (Tabs) Clean */
         .tabs {
             display: flex;
             justify-content: center;
@@ -154,15 +159,25 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Barras de Progresso */
+        /* Barras de Progresso Minimalistas (CORRIGIDO) */
+        .progress-wrapper {
+            margin-bottom: 40px;
+        }
+        .progress-text {
+            text-align: right;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
         .progress-container {
             background-color: var(--hover-bg);
             border-radius: 4px;
             height: 12px;
             width: 100%;
-            margin-bottom: 40px;
             overflow: hidden;
-            position: relative;
             border: 1px solid var(--border-color);
         }
         .progress-bar {
@@ -171,25 +186,19 @@
             width: 0%;
             transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .progress-text {
-            position: absolute;
-            width: 100%;
-            text-align: right;
-            padding-right: 10px;
-            top: -26px; 
-            font-size: 0.85em;
-            font-weight: 600;
-            color: var(--text-secondary);
-            font-family: 'Inter', sans-serif;
-            letter-spacing: 0.5px;
-        }
 
-        /* Estilos do Guia Teórico */
+        /* Estilos do Guia Teórico (Estilo Artigo) */
         #tab-guia p {
             font-size: 1.15em;
             color: var(--text-primary);
             margin-bottom: 25px;
             opacity: 0.9;
+        }
+        #tab-guia ul, #tab-guia ol {
+            font-size: 1.1em;
+            color: var(--text-primary);
+            opacity: 0.9;
+            margin-bottom: 25px;
         }
         .section-block {
             margin-bottom: 50px;
@@ -232,6 +241,7 @@
             font-size: 1.1em;
             margin: 30px 0;
             color: var(--text-primary);
+            overflow-x: auto;
         }
         
         .read-check-container {
@@ -278,7 +288,7 @@
             border-bottom: 1px solid var(--border-color);
             transition: all 0.3s ease;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             border-radius: 6px;
         }
         li.class-item:last-child {
@@ -301,7 +311,7 @@
         /* Checkboxes Elegantes */
         .guide-checkbox-label, .checkbox-label {
             display: inline-flex;
-            align-items: center;
+            align-items: flex-start;
             cursor: pointer;
             font-weight: 600;
             font-size: 0.9em;
@@ -309,12 +319,14 @@
             gap: 15px;
             transition: opacity 0.3s;
             margin-right: 10px;
+            margin-top: 2px;
         }
         .guide-checkbox-label {
             text-transform: uppercase;
             letter-spacing: 1px;
             font-size: 0.85em;
             color: var(--text-secondary);
+            align-items: center;
         }
         .guide-checkbox-label:hover, .checkbox-label:hover {
             opacity: 0.7;
@@ -325,6 +337,7 @@
             -webkit-appearance: none;
             width: 22px;
             height: 22px;
+            min-width: 22px;
             border: 2px solid var(--text-secondary);
             border-radius: 4px;
             cursor: pointer;
@@ -334,6 +347,7 @@
             justify-content: center;
             transition: all 0.2s ease;
             background-color: transparent;
+            margin: 0;
         }
         input[type="checkbox"]:checked {
             background-color: var(--accent-color);
@@ -352,8 +366,9 @@
             font-weight: 500;
             font-size: 1.05em;
             flex-grow: 1;
-            line-height: 1.4;
+            line-height: 1.5;
             transition: color 0.2s;
+            word-break: break-word;
         }
         a.class-link:hover {
             color: var(--accent-hover);
@@ -382,22 +397,61 @@
             background-color: var(--hover-bg);
         }
 
-        /* Responsividade */
+        /* 📱 RESPONSIVIDADE PARA MOBILE */
         @media (max-width: 768px) {
+            body {
+                padding: 15px 10px;
+            }
             .container {
                 padding: 30px 20px;
-            }
-            h1 { font-size: 2.4em; }
-            li.class-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .checkbox-label {
-                margin-bottom: 10px;
             }
             .theme-toggle {
                 top: 15px;
                 right: 15px;
+                padding: 6px 10px;
+                font-size: 1em;
+            }
+            .header-container {
+                margin-top: 30px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .subtitle {
+                font-size: 0.9em;
+            }
+            .tabs {
+                gap: 5px;
+            }
+            .tab-btn {
+                padding: 8px 12px;
+                font-size: 0.95em;
+            }
+            .section-block h2, .course-title {
+                font-size: 1.6em;
+            }
+            #tab-guia p, #tab-guia ul, #tab-guia ol {
+                font-size: 1em;
+            }
+            blockquote {
+                font-size: 1.1em;
+                padding: 15px;
+            }
+            .formula {
+                font-size: 0.9em;
+                padding: 15px 10px;
+            }
+            li.class-item {
+                padding: 15px 10px;
+            }
+            a.class-link {
+                font-size: 0.95em;
+            }
+            .guide-checkbox-label {
+                font-size: 0.75em;
+            }
+            .progress-text {
+                font-size: 0.75em;
             }
         }
     </style>
@@ -405,7 +459,7 @@
 <body>
 
 <div class="container">
-    <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">🌓</button>
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" title="Alternar Tema">🌓</button>
 
     <div class="header-container">
         <h1>Scratch to Stack</h1>
@@ -419,12 +473,14 @@
 
     <div id="tab-guia" class="tab-content active">
         
-        <div class="progress-text" id="guide-progress-text">0% LIDO</div>
-        <div class="progress-container">
-            <div class="progress-bar" id="guide-progress-bar"></div>
+        <div class="progress-wrapper">
+            <div class="progress-text" id="guide-progress-text">0% LIDO</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="guide-progress-bar"></div>
+            </div>
         </div>
 
-        <p style="font-family: 'Playfair Display', serif; font-size: 1.4em; text-align: center; color: var(--text-primary); margin-bottom: 50px;">A Inteligência Artificial deixou de ser apenas um "chatbot" que prevê a próxima palavra. Hoje, ela é o motor de sistemas complexos. O AI Engineer moderno precisa saber conectar, organizar e orquestrar a IA com dados do mundo real.</p>
+        <p style="font-family: 'Playfair Display', serif; font-size: 1.4em; text-align: center; color: var(--text-primary); margin-bottom: 50px; line-height: 1.5;">A Inteligência Artificial deixou de ser apenas um "chatbot" que prevê a próxima palavra. Hoje, ela é o motor de sistemas complexos. O AI Engineer moderno precisa saber conectar, organizar e orquestrar a IA com dados do mundo real.</p>
         
         <div class="section-block" id="section-1">
             <h2>1. A Base: Python e Comunicação Rápida</h2>
@@ -515,21 +571,22 @@
 
     <div id="tab-trilha" class="tab-content">
         
-        <div class="progress-text" id="trail-progress-text">0% CONCLUÍDO</div>
-        <div class="progress-container">
-            <div class="progress-bar" id="trail-progress-bar"></div>
+        <div class="progress-wrapper">
+            <div class="progress-text" id="trail-progress-text">0% CONCLUÍDO</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="trail-progress-bar"></div>
+            </div>
         </div>
         
-        <div id="app"></div>
-    </div>
+        <div id="app"></div> </div>
     
-    <button class="reset-btn" onclick="resetAllProgress()">Resetar Histórico</button>
+    <button class="reset-btn" onclick="resetAllProgress()">Resetar Histórico de Progresso</button>
 </div>
 
 <script>
     // --- LÓGICA DO TEMA (DARK/LIGHT) ---
     function initTheme() {
-        const savedTheme = localStorage.getItem('theme') || 'dark'; // Dark como padrão!
+        const savedTheme = localStorage.getItem('theme') || 'dark'; // Modo escuro é o padrão da experiência Claude
         document.documentElement.setAttribute('data-theme', savedTheme);
     }
     
@@ -540,7 +597,7 @@
         localStorage.setItem('theme', newTheme);
     }
 
-    // Chama na inicialização
+    // Inicializa o tema assim que o script roda
     initTheme();
 
     // --- CONTROLE DE ABAS ---
@@ -766,7 +823,7 @@
 
     // --- FUNÇÃO GLOBAL DE RESET ---
     function resetAllProgress() {
-        if (confirm("Tem certeza que deseja zerar todo o seu progresso?")) {
+        if (confirm("Tem certeza que deseja zerar todo o seu histórico de progresso (Guia Teórico e Aulas)?")) {
             for(let i = 1; i <= totalSections; i++) {
                 localStorage.removeItem('guia-read-' + i);
             }
@@ -788,7 +845,7 @@
         }
     }
 
-    // Inicializa
+    // Inicializa a aplicação
     updateGuideProgress();
     renderApp();
 
