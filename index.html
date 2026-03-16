@@ -509,10 +509,11 @@
         
         <div class="section-block" id="section-1">
             <h2>1. A Base: Python e Comunicação Rápida</h2>
-            <p>O ecossistema de IA fala, predominantemente, <strong>Python</strong>. Como as IAs demoram alguns segundos para pensar e responder, nossos sistemas não podem ficar "travados" esperando. Usamos:</p>
+            <p>O ecossistema de IA fala, predominantemente, <strong>Python</strong>. Como as IAs demoram alguns segundos para pensar e responder, nossos sistemas não podem ficar "travados" esperando. Para dominar a engenharia de base, usamos:</p>
             <ul>
-                <li><strong>FastAPI:</strong> Um framework assíncrono para criar APIs rápidas. Seu sistema pode atender milhares de usuários ao mesmo tempo enquanto a IA processa respostas.</li>
-                <li><strong>Pydantic:</strong> Funciona como um "segurança": obriga a IA a devolver dados em um formato estrito (como JSON estruturado), garantindo que o seu software não quebre.</li>
+                <li><strong>FastAPI:</strong> Um framework assíncrono para criar APIs rápidas. Seu sistema pode atender milhares de usuários ao mesmo tempo enquanto a IA processa respostas no fundo.</li>
+                <li><strong>Requests e HTTP:</strong> Você precisa saber como enviar pacotes de dados (JSON) para a OpenAI, Anthropic ou bancos de dados na nuvem. Entender requisições, status code e tratamento de <i>timeouts</i> é inegociável.</li>
+                <li><strong>Pydantic:</strong> Funciona como um "segurança": obriga a IA a devolver dados em um formato estrito (como um JSON validado), garantindo que o seu software não quebre.</li>
             </ul>
             <div class="read-check-container">
                 <label class="guide-checkbox-label">
@@ -565,7 +566,7 @@
             <p>E se a IA pudesse <strong>agir</strong>? Esse é o <strong>Agentic AI</strong>. O agente analisa o problema e usa <em>Ferramentas</em> (código Python). O ciclo <strong>ReAct</strong> funciona assim:</p>
             <ul>
                 <li><strong>Pensar:</strong> Entender o objetivo.</li>
-                <li><strong>Agir:</strong> Chamar uma ferramenta externa.</li>
+                <li><strong>Agir:</strong> Chamar uma ferramenta externa via API.</li>
                 <li><strong>Observar:</strong> Ler o resultado da ferramenta e decidir o próximo passo.</li>
             </ul>
             <p>Frameworks como <strong>LangChain</strong> ou sistemas Multi-Agentes como <strong>CrewAI</strong> orquestram essa equipe inteligente.</p>
@@ -639,9 +640,6 @@
     }
 
     // --- ARQUITETURA DE ARMAZENAMENTO (Cofre Único) ---
-    /* Salvar os dados em um único objeto JSON impede vazamento de memória e conflitos
-       se adicionarmos novas trilhas no futuro. A identificação é feita pelo ID (classId).
-    */
     const STORAGE_KEY = 'scratch_to_stack_progress';
     let userProgress = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
 
@@ -649,7 +647,6 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify(userProgress));
     }
 
-    // Função central de toggle (funciona pro guia e pra trilha)
     function toggleProgress(id) {
         const checkbox = document.getElementById(id);
         
@@ -661,7 +658,6 @@
         
         saveProgressData();
         
-        // Atualiza UI baseada no prefixo do ID
         if (id.startsWith('guia-')) {
             const section = document.getElementById('section-' + id.split('-')[1]);
             if (checkbox.checked) section.classList.add('completed-section');
@@ -674,7 +670,6 @@
             renderTrailProgress();
         }
     }
-
 
     // --- LÓGICA DO GUIA TEÓRICO ---
     const totalGuideSections = 5;
@@ -703,8 +698,7 @@
         document.getElementById('guide-progress-text').innerText = `${percentage}% LIDO`;
     }
 
-
-    // --- LÓGICA DA TRILHA DE AULAS ---
+    // --- LÓGICA DA TRILHA DE AULAS (Agora com módulo de Requests!) ---
     const learningPath = {
       "courses": [
         {
@@ -718,6 +712,15 @@
                 { "classId": "genai-1-3", "title": "Pydantic: Validação de Dados", "link": "https://docs.pydantic.dev/latest/concepts/models/" },
                 { "classId": "genai-1-4", "title": "Variáveis de Ambiente (.env)", "link": "https://pypi.org/project/python-dotenv/" }
               ]
+            },
+            {
+              "title": "Consumindo APIs (HTTP & Requests)",
+              "classes": [
+                { "classId": "genai-1-5", "title": "O que é e como funciona o HTTP / JSON", "link": "https://www.youtube.com/watch?v=lmbvF_n_75o", "isNew": true },
+                { "classId": "genai-1-6", "title": "Fazer requisições HTTP com a lib requests (Python)", "link": "https://www.youtube.com/watch?v=QHX5f9t6Hig", "isNew": true },
+                { "classId": "genai-1-7", "title": "Consumir APIs REST e Processar JSON", "link": "https://www.youtube.com/watch?v=eel1OVIdfUw", "isNew": true },
+                { "classId": "genai-1-8", "title": "Tratar erros e timeouts corretamente ao chamar APIs", "link": "https://www.youtube.com/watch?v=7MHDDOrDx-w", "isNew": true }
+              ]
             }
           ]
         },
@@ -730,8 +733,8 @@
                 { "classId": "genai-2-1", "title": "O que são LLMs e como funcionam?", "link": "https://www.youtube.com/watch?v=zjkBMFhNj_g" },
                 { "classId": "genai-2-2", "title": "Prompt Engineering Guide (OpenAI)", "link": "https://platform.openai.com/docs/guides/prompt-engineering" },
                 { "classId": "genai-2-3", "title": "Técnicas: Zero-shot, Few-shot e CoT", "link": "https://www.promptingguide.ai/techniques" },
-                { "classId": "genai-2-4", "title": "Consumindo a API da OpenAI", "link": "https://platform.openai.com/docs/quickstart", "isNew": true },
-                { "classId": "genai-2-5", "title": "Modelos Open Source (Groq/Ollama)", "link": "https://console.groq.com/docs/quickstart", "isNew": true }
+                { "classId": "genai-2-4", "title": "Consumindo a API da OpenAI", "link": "https://platform.openai.com/docs/quickstart" },
+                { "classId": "genai-2-5", "title": "Modelos Open Source (Groq/Ollama)", "link": "https://console.groq.com/docs/quickstart" }
               ]
             }
           ]
@@ -869,30 +872,30 @@
         document.getElementById('trail-progress-text').innerText = `${percentage}% CONCLUÍDO`;
     }
 
-    // --- FUNÇÃO DE RESET GLOBAL E MIGRAÇÃO ---
     function resetAllProgress() {
         if (confirm("Tem certeza que deseja zerar todo o seu histórico de progresso (Guia Teórico e Aulas)?")) {
             userProgress = {};
             saveProgressData();
-            
-            // Força a atualização visual recarregando a página (forma mais limpa de resetar a UI inteira)
             window.location.reload();
         }
     }
 
-    // Limpa chaves antigas se o usuário já havia testado a versão anterior do repositório (Migração)
+    // Função de retrocompatibilidade (migração de quem já usava o formato antigo)
     function clearLegacyStorage() {
         if(localStorage.getItem('genai-1-1') === 'completed') {
-            // Varre o localStorage e apaga lixo antigo
             Object.keys(localStorage).forEach(key => {
                 if(key !== 'theme' && key !== STORAGE_KEY) {
+                    // Tenta migrar os dados antigos para o novo formato
+                    if(localStorage.getItem(key) === 'completed') {
+                        userProgress[key] = true;
+                    }
                     localStorage.removeItem(key);
                 }
             });
+            saveProgressData();
         }
     }
 
-    // Inicialização do APP
     clearLegacyStorage();
     renderApp();
     renderGuideProgress();
