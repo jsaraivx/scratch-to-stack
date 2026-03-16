@@ -5,39 +5,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scratch to Stack: AI Engineering</title>
     <style>
-        /* Importando fontes originais e modernas */
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&display=swap');
+        /* Fontes originais e modernas */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        /* Sistema de Cores (Estilo Claude / Warm Theme) */
+        :root {
+            /* Light Theme (Papel Quente) */
+            --bg-color: #f9f8f6;
+            --container-bg: #ffffff;
+            --text-primary: #2c2c2c;
+            --text-secondary: #666666;
+            --accent-color: #c55f43; /* Laranja queimado/Terra */
+            --accent-hover: #a34830;
+            --border-color: #e6e4df;
+            --hover-bg: #f4f2ed;
+            --completed-bg: #f5f4f0;
+            --completed-text: #a3a099;
+            --formula-bg: #f0ede8;
+            --shadow: rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme (Cinza Terra/Sépia Escuro - Eye Care) */
+            --bg-color: #1d1c19;
+            --container-bg: #262521;
+            --text-primary: #e0ded7;
+            --text-secondary: #9a9890;
+            --accent-color: #d3755b;
+            --accent-hover: #e5886e;
+            --border-color: #3f3d38;
+            --hover-bg: #2e2d29;
+            --completed-bg: #22211d;
+            --completed-text: #6b6962;
+            --formula-bg: #191816;
+            --shadow: rgba(0, 0, 0, 0.2);
+        }
 
         body {
-            /* Fonte principal para leitura (Inter) e Serif para títulos */
             font-family: 'Inter', sans-serif;
-            background-color: #fdfbf7;
-            color: #2c2c2c;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
             line-height: 1.7;
             margin: 0;
             padding: 40px 20px;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
         
         .container {
             max-width: 850px;
             margin: 0 auto;
-            background: #ffffff;
+            background: var(--container-bg);
             padding: 50px 60px;
             border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-            border-top: 6px solid #111;
+            box-shadow: 0 10px 40px var(--shadow);
+            border-top: 6px solid var(--accent-color);
+            position: relative;
+            transition: background-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        /* Botão de Tema */
+        .theme-toggle {
+            position: absolute;
+            top: 25px;
+            right: 30px;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 1.2em;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .theme-toggle:hover {
+            background: var(--hover-bg);
+            color: var(--text-primary);
         }
         
-        /* Cabeçalho "Editorial" */
+        /* Cabeçalho */
         .header-container {
             text-align: center;
             margin-bottom: 40px;
             padding-bottom: 20px;
-            border-bottom: 1px solid #eaeaea;
+            border-bottom: 1px solid var(--border-color);
+            margin-top: 10px;
         }
         h1 {
             font-family: 'Playfair Display', serif;
-            color: #111;
+            color: var(--text-primary);
             font-size: 3.2em;
             font-weight: 700;
             letter-spacing: -1px;
@@ -45,14 +100,14 @@
         }
         .subtitle {
             font-family: 'Inter', sans-serif;
-            color: #666;
+            color: var(--text-secondary);
             font-size: 1.1em;
-            font-weight: 300;
+            font-weight: 400;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
-        /* Sistema de Abas (Tabs) Clean */
+        /* Sistema de Abas (Tabs) */
         .tabs {
             display: flex;
             justify-content: center;
@@ -62,7 +117,7 @@
         .tab-btn {
             background-color: transparent;
             border: none;
-            color: #888;
+            color: var(--text-secondary);
             font-family: 'Inter', sans-serif;
             font-size: 1.05em;
             font-weight: 600;
@@ -72,10 +127,10 @@
             position: relative;
         }
         .tab-btn:hover {
-            color: #111;
+            color: var(--text-primary);
         }
         .tab-btn.active {
-            color: #111;
+            color: var(--text-primary);
         }
         .tab-btn.active::after {
             content: '';
@@ -84,7 +139,7 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background-color: #111;
+            background-color: var(--accent-color);
         }
         
         .tab-content {
@@ -99,18 +154,19 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Barras de Progresso Minimalistas */
+        /* Barras de Progresso */
         .progress-container {
-            background-color: #f0f0f0;
+            background-color: var(--hover-bg);
             border-radius: 4px;
-            height: 14px;
+            height: 12px;
             width: 100%;
             margin-bottom: 40px;
             overflow: hidden;
             position: relative;
+            border: 1px solid var(--border-color);
         }
         .progress-bar {
-            background-color: #111;
+            background-color: var(--accent-color);
             height: 100%;
             width: 0%;
             transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
@@ -120,130 +176,92 @@
             width: 100%;
             text-align: right;
             padding-right: 10px;
-            top: -25px; /* Movido para cima da barra */
+            top: -26px; 
             font-size: 0.85em;
             font-weight: 600;
-            color: #555;
+            color: var(--text-secondary);
             font-family: 'Inter', sans-serif;
+            letter-spacing: 0.5px;
         }
 
-        /* Estilos do Guia Teórico (Estilo Artigo) */
+        /* Estilos do Guia Teórico */
         #tab-guia p {
             font-size: 1.15em;
-            color: #444;
+            color: var(--text-primary);
             margin-bottom: 25px;
+            opacity: 0.9;
         }
         .section-block {
             margin-bottom: 50px;
             padding: 0;
             border: none;
             background: transparent;
-            transition: opacity 0.3s;
+            transition: opacity 0.4s ease;
         }
         .section-block.completed-section {
-            opacity: 0.5;
+            opacity: 0.4;
         }
         .section-block h2 {
             font-family: 'Playfair Display', serif;
-            color: #111;
-            font-size: 2em;
+            color: var(--text-primary);
+            font-size: 2.2em;
             margin-top: 0;
             margin-bottom: 20px;
             border: none;
             padding: 0;
+            font-weight: 600;
         }
         blockquote {
-            background-color: #fafafa;
-            border-left: 4px solid #111;
+            background-color: var(--hover-bg);
+            border-left: 4px solid var(--accent-color);
             padding: 20px 25px;
             margin: 30px 0;
             font-family: 'Playfair Display', serif;
             font-style: italic;
             font-size: 1.25em;
-            color: #333;
+            color: var(--text-primary);
+            border-radius: 0 8px 8px 0;
         }
         .formula {
-            background-color: #fff;
+            background-color: var(--formula-bg);
             padding: 20px;
             text-align: center;
-            border: 1px solid #eaeaea;
-            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
             font-family: 'Courier New', Courier, monospace;
             font-size: 1.1em;
             margin: 30px 0;
-            color: #555;
+            color: var(--text-primary);
         }
         
-        /* Checkbox Elegante para o Guia */
         .read-check-container {
             margin-top: 30px;
             display: flex;
             align-items: center;
             justify-content: flex-start;
         }
-        .guide-checkbox-label {
-            display: inline-flex;
-            align-items: center;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9em;
-            color: #111;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            gap: 12px;
-            transition: opacity 0.3s;
-        }
-        .guide-checkbox-label:hover {
-            opacity: 0.7;
-        }
-        /* Custom Checkbox */
-        .guide-checkbox-label input[type="checkbox"],
-        .checkbox-label input[type="checkbox"] {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #111;
-            border-radius: 3px;
-            cursor: pointer;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-        .guide-checkbox-label input[type="checkbox"]:checked,
-        .checkbox-label input[type="checkbox"]:checked {
-            background-color: #111;
-        }
-        .guide-checkbox-label input[type="checkbox"]:checked::after,
-        .checkbox-label input[type="checkbox"]:checked::after {
-            content: '✓';
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
+        
         /* Estilos da Trilha de Aulas */
         .course {
             margin-bottom: 60px;
         }
         .course-title {
             font-family: 'Playfair Display', serif;
-            color: #111;
+            color: var(--text-primary);
             font-size: 2.2em;
             margin-bottom: 25px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #111;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
         }
         .module {
             margin-bottom: 35px;
         }
         .module-title {
             font-family: 'Inter', sans-serif;
-            color: #444;
-            font-size: 1.1em;
-            font-weight: 800;
+            color: var(--text-secondary);
+            font-size: 1.05em;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 15px;
@@ -254,47 +272,91 @@
             margin: 0;
         }
         li.class-item {
-            background: #fff;
+            background: transparent;
             margin-bottom: 0;
-            padding: 18px 0;
-            border-bottom: 1px solid #eaeaea;
+            padding: 16px 10px;
+            border-bottom: 1px solid var(--border-color);
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
+            border-radius: 6px;
         }
         li.class-item:last-child {
             border-bottom: none;
         }
         li.class-item:hover {
-            transform: translateX(5px);
+            background-color: var(--hover-bg);
+            transform: translateX(4px);
         }
         
         li.class-item.completed {
-            opacity: 0.4;
+            background-color: var(--completed-bg);
+            opacity: 0.6;
         }
         li.class-item.completed a {
             text-decoration: line-through;
+            color: var(--completed-text);
         }
 
-        .checkbox-label {
-            display: flex;
+        /* Checkboxes Elegantes */
+        .guide-checkbox-label, .checkbox-label {
+            display: inline-flex;
             align-items: center;
             cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            color: var(--text-primary);
             gap: 15px;
-            margin-right: 15px;
+            transition: opacity 0.3s;
+            margin-right: 10px;
+        }
+        .guide-checkbox-label {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85em;
+            color: var(--text-secondary);
+        }
+        .guide-checkbox-label:hover, .checkbox-label:hover {
+            opacity: 0.7;
+        }
+        
+        input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--text-secondary);
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            background-color: transparent;
+        }
+        input[type="checkbox"]:checked {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        input[type="checkbox"]:checked::after {
+            content: '✓';
+            color: var(--container-bg);
+            font-size: 14px;
+            font-weight: bold;
         }
         
         a.class-link {
             text-decoration: none;
-            color: #222;
-            font-weight: 400;
+            color: var(--text-primary);
+            font-weight: 500;
             font-size: 1.05em;
             flex-grow: 1;
             line-height: 1.4;
             transition: color 0.2s;
         }
         a.class-link:hover {
-            color: #666;
+            color: var(--accent-hover);
         }
         
         /* Botão Reset Clean */
@@ -303,9 +365,9 @@
             margin: 60px auto 0;
             padding: 12px 30px;
             background-color: transparent;
-            color: #999;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
             cursor: pointer;
             font-family: 'Inter', sans-serif;
             font-size: 0.9em;
@@ -315,18 +377,17 @@
             transition: all 0.3s;
         }
         .reset-btn:hover {
-            color: #e74c3c;
-            border-color: #e74c3c;
+            color: #d9534f;
+            border-color: #d9534f;
+            background-color: var(--hover-bg);
         }
 
-        /* Responsividade Básica */
+        /* Responsividade */
         @media (max-width: 768px) {
             .container {
                 padding: 30px 20px;
             }
-            h1 {
-                font-size: 2.5em;
-            }
+            h1 { font-size: 2.4em; }
             li.class-item {
                 flex-direction: column;
                 align-items: flex-start;
@@ -334,12 +395,18 @@
             .checkbox-label {
                 margin-bottom: 10px;
             }
+            .theme-toggle {
+                top: 15px;
+                right: 15px;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">🌓</button>
+
     <div class="header-container">
         <h1>Scratch to Stack</h1>
         <div class="subtitle">Modern AI Engineering</div>
@@ -347,7 +414,7 @@
 
     <div class="tabs">
         <button class="tab-btn active" onclick="openTab('tab-guia', this)">Guia Teórico</button>
-        <button class="tab-btn" onclick="openTab('tab-trilha', this)">Trilha de Aulas</button>
+        <button class="tab-btn" onclick="openTab('tab-trilha', this)">Trilha Prática</button>
     </div>
 
     <div id="tab-guia" class="tab-content active">
@@ -357,7 +424,7 @@
             <div class="progress-bar" id="guide-progress-bar"></div>
         </div>
 
-        <p style="font-family: 'Playfair Display', serif; font-size: 1.4em; text-align: center; color: #111; margin-bottom: 50px;">A Inteligência Artificial deixou de ser apenas um "chatbot" que prevê a próxima palavra. Hoje, ela é o motor de sistemas complexos. O AI Engineer moderno precisa saber conectar, organizar e orquestrar a IA com dados do mundo real.</p>
+        <p style="font-family: 'Playfair Display', serif; font-size: 1.4em; text-align: center; color: var(--text-primary); margin-bottom: 50px;">A Inteligência Artificial deixou de ser apenas um "chatbot" que prevê a próxima palavra. Hoje, ela é o motor de sistemas complexos. O AI Engineer moderno precisa saber conectar, organizar e orquestrar a IA com dados do mundo real.</p>
         
         <div class="section-block" id="section-1">
             <h2>1. A Base: Python e Comunicação Rápida</h2>
@@ -453,23 +520,33 @@
             <div class="progress-bar" id="trail-progress-bar"></div>
         </div>
         
-        <div id="app"></div> </div>
+        <div id="app"></div>
+    </div>
     
-    <button class="reset-btn" onclick="resetAllProgress()">Resetar Progresso</button>
+    <button class="reset-btn" onclick="resetAllProgress()">Resetar Histórico</button>
 </div>
 
 <script>
-    // Controle de Abas
+    // --- LÓGICA DO TEMA (DARK/LIGHT) ---
+    function initTheme() {
+        const savedTheme = localStorage.getItem('theme') || 'dark'; // Dark como padrão!
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+    
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    }
+
+    // Chama na inicialização
+    initTheme();
+
+    // --- CONTROLE DE ABAS ---
     function openTab(tabId, btnElement) {
-        // Esconde todos os conteúdos
-        const contents = document.querySelectorAll('.tab-content');
-        contents.forEach(content => content.classList.remove('active'));
-        
-        // Remove a classe active de todos os botões
-        const buttons = document.querySelectorAll('.tab-btn');
-        buttons.forEach(btn => btn.classList.remove('active'));
-        
-        // Ativa a aba e o botão clicado
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
         btnElement.classList.add('active');
     }
@@ -513,7 +590,6 @@
 
     // --- LÓGICA DA TRILHA DE AULAS ---
     const learningPath = {
-      "slug": "ai-engineering-genai",
       "courses": [
         {
           "title": "1. Fundamentos: Python & APIs",
@@ -535,7 +611,7 @@
             {
               "title": "Dominando Modelos Fundacionais",
               "classes": [
-                { "classId": "genai-2-1", "title": "O que são LLMs e como funcionam? (Andrej Karpathy)", "link": "https://www.youtube.com/watch?v=zjkBMFhNj_g" },
+                { "classId": "genai-2-1", "title": "O que são LLMs e como funcionam?", "link": "https://www.youtube.com/watch?v=zjkBMFhNj_g" },
                 { "classId": "genai-2-2", "title": "Prompt Engineering Guide (OpenAI)", "link": "https://platform.openai.com/docs/guides/prompt-engineering" },
                 { "classId": "genai-2-3", "title": "Técnicas: Zero-shot, Few-shot e CoT", "link": "https://www.promptingguide.ai/techniques" },
                 { "classId": "genai-2-4", "title": "Consumindo a API da OpenAI", "link": "https://platform.openai.com/docs/quickstart" },
@@ -691,12 +767,10 @@
     // --- FUNÇÃO GLOBAL DE RESET ---
     function resetAllProgress() {
         if (confirm("Tem certeza que deseja zerar todo o seu progresso?")) {
-            // Limpa o guia
             for(let i = 1; i <= totalSections; i++) {
                 localStorage.removeItem('guia-read-' + i);
             }
             
-            // Limpa a trilha
             learningPath.courses.forEach(course => {
                 course.modules.forEach(mod => {
                     mod.classes.forEach(cls => {
@@ -709,13 +783,12 @@
                 });
             });
 
-            // Atualiza a tela
             updateGuideProgress();
             updateTrailProgress();
         }
     }
 
-    // Inicializa a aplicação
+    // Inicializa
     updateGuideProgress();
     renderApp();
 
