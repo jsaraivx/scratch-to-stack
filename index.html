@@ -23,6 +23,7 @@
             --completed-text: #a3a099;
             --formula-bg: #f0ede8;
             --shadow: rgba(0, 0, 0, 0.05);
+            --badge-bg: #e67e22;
         }
 
         [data-theme="dark"] {
@@ -39,6 +40,7 @@
             --completed-text: #6b6962;
             --formula-bg: #191816;
             --shadow: rgba(0, 0, 0, 0.2);
+            --badge-bg: #d35400;
         }
 
         * {
@@ -187,7 +189,7 @@
             transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        /* Estilos do Guia Teórico (Estilo Artigo) */
+        /* Estilos do Guia Teórico */
         #tab-guia p {
             font-size: 1.15em;
             color: var(--text-primary);
@@ -290,6 +292,7 @@
             display: flex;
             align-items: flex-start;
             border-radius: 6px;
+            position: relative;
         }
         li.class-item:last-child {
             border-bottom: none;
@@ -306,6 +309,24 @@
         li.class-item.completed a {
             text-decoration: line-through;
             color: var(--completed-text);
+        }
+
+        /* Badge de Nova Aula */
+        .badge-new {
+            background-color: var(--badge-bg);
+            color: #fff;
+            font-size: 0.7em;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
+            vertical-align: middle;
+            text-decoration: none !important;
+            display: inline-block;
+        }
+        li.class-item.completed .badge-new {
+            opacity: 0.5;
+            background-color: #7f8c8d;
         }
 
         /* Checkboxes Elegantes */
@@ -441,60 +462,22 @@
 
         /* 📱 RESPONSIVIDADE PARA MOBILE */
         @media (max-width: 768px) {
-            body {
-                padding: 15px 10px;
-            }
-            .container {
-                padding: 30px 20px;
-            }
-            .theme-toggle {
-                top: 15px;
-                right: 15px;
-                padding: 6px 10px;
-                font-size: 1em;
-            }
-            .header-container {
-                margin-top: 30px;
-            }
-            h1 {
-                font-size: 2.2em;
-            }
-            .subtitle {
-                font-size: 0.9em;
-            }
-            .tabs {
-                gap: 5px;
-            }
-            .tab-btn {
-                padding: 8px 12px;
-                font-size: 0.95em;
-            }
-            .section-block h2, .course-title {
-                font-size: 1.6em;
-            }
-            #tab-guia p, #tab-guia ul, #tab-guia ol {
-                font-size: 1em;
-            }
-            blockquote {
-                font-size: 1.1em;
-                padding: 15px;
-            }
-            .formula {
-                font-size: 0.9em;
-                padding: 15px 10px;
-            }
-            li.class-item {
-                padding: 15px 10px;
-            }
-            a.class-link {
-                font-size: 0.95em;
-            }
-            .guide-checkbox-label {
-                font-size: 0.75em;
-            }
-            .progress-text {
-                font-size: 0.75em;
-            }
+            body { padding: 15px 10px; }
+            .container { padding: 30px 20px; }
+            .theme-toggle { top: 15px; right: 15px; padding: 6px 10px; font-size: 1em; }
+            .header-container { margin-top: 30px; }
+            h1 { font-size: 2.2em; }
+            .subtitle { font-size: 0.9em; }
+            .tabs { gap: 5px; }
+            .tab-btn { padding: 8px 12px; font-size: 0.95em; }
+            .section-block h2, .course-title { font-size: 1.6em; }
+            #tab-guia p, #tab-guia ul, #tab-guia ol { font-size: 1em; }
+            blockquote { font-size: 1.1em; padding: 15px; }
+            .formula { font-size: 0.9em; padding: 15px 10px; }
+            li.class-item { padding: 15px 10px; }
+            a.class-link { font-size: 0.95em; }
+            .guide-checkbox-label { font-size: 0.75em; }
+            .progress-text { font-size: 0.75em; }
         }
     </style>
 </head>
@@ -533,7 +516,7 @@
             </ul>
             <div class="read-check-container">
                 <label class="guide-checkbox-label">
-                    <input type="checkbox" id="check-1" onchange="toggleGuideProgress(1)">
+                    <input type="checkbox" id="guia-1" onchange="toggleProgress('guia-1')">
                     Marcar como lido
                 </label>
             </div>
@@ -551,7 +534,7 @@
             </div>
             <div class="read-check-container">
                 <label class="guide-checkbox-label">
-                    <input type="checkbox" id="check-2" onchange="toggleGuideProgress(2)">
+                    <input type="checkbox" id="guia-2" onchange="toggleProgress('guia-2')">
                     Marcar como lido
                 </label>
             </div>
@@ -571,7 +554,7 @@
             </blockquote>
             <div class="read-check-container">
                 <label class="guide-checkbox-label">
-                    <input type="checkbox" id="check-3" onchange="toggleGuideProgress(3)">
+                    <input type="checkbox" id="guia-3" onchange="toggleProgress('guia-3')">
                     Marcar como lido
                 </label>
             </div>
@@ -588,7 +571,7 @@
             <p>Frameworks como <strong>LangChain</strong> ou sistemas Multi-Agentes como <strong>CrewAI</strong> orquestram essa equipe inteligente.</p>
             <div class="read-check-container">
                 <label class="guide-checkbox-label">
-                    <input type="checkbox" id="check-4" onchange="toggleGuideProgress(4)">
+                    <input type="checkbox" id="guia-4" onchange="toggleProgress('guia-4')">
                     Marcar como lido
                 </label>
             </div>
@@ -604,7 +587,7 @@
             </ul>
             <div class="read-check-container">
                 <label class="guide-checkbox-label">
-                    <input type="checkbox" id="check-5" onchange="toggleGuideProgress(5)">
+                    <input type="checkbox" id="guia-5" onchange="toggleProgress('guia-5')">
                     Marcar como lido
                 </label>
             </div>
@@ -612,7 +595,6 @@
     </div>
 
     <div id="tab-trilha" class="tab-content">
-        
         <div class="progress-wrapper">
             <div class="progress-text" id="trail-progress-text">0% CONCLUÍDO</div>
             <div class="progress-container">
@@ -622,7 +604,7 @@
         
         <div id="app"></div> </div>
     
-    <button class="reset-btn" onclick="resetAllProgress()">Resetar Histórico de Progresso</button>
+    <button class="reset-btn" onclick="resetAllProgress()">Limpar Histórico de Progresso</button>
 
     <div class="footer">
         <div class="footer-text">Desenvolvido e mantido por <strong>João Saraiva (jsaraivx)</strong></div>
@@ -636,7 +618,7 @@
 <script>
     // --- LÓGICA DO TEMA (DARK/LIGHT) ---
     function initTheme() {
-        const savedTheme = localStorage.getItem('theme') || 'dark'; // Modo escuro é o padrão da experiência Claude
+        const savedTheme = localStorage.getItem('theme') || 'dark'; // Dark theme é o padrão
         document.documentElement.setAttribute('data-theme', savedTheme);
     }
     
@@ -646,8 +628,6 @@
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
     }
-
-    // Inicializa o tema assim que o script roda
     initTheme();
 
     // --- CONTROLE DE ABAS ---
@@ -658,19 +638,58 @@
         btnElement.classList.add('active');
     }
 
-    // --- LÓGICA DO GUIA TEÓRICO ---
-    const totalSections = 5;
+    // --- ARQUITETURA DE ARMAZENAMENTO (Cofre Único) ---
+    /* Salvar os dados em um único objeto JSON impede vazamento de memória e conflitos
+       se adicionarmos novas trilhas no futuro. A identificação é feita pelo ID (classId).
+    */
+    const STORAGE_KEY = 'scratch_to_stack_progress';
+    let userProgress = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
 
-    function updateGuideProgress() {
+    function saveProgressData() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(userProgress));
+    }
+
+    // Função central de toggle (funciona pro guia e pra trilha)
+    function toggleProgress(id) {
+        const checkbox = document.getElementById(id);
+        
+        if (checkbox.checked) {
+            userProgress[id] = true;
+        } else {
+            delete userProgress[id];
+        }
+        
+        saveProgressData();
+        
+        // Atualiza UI baseada no prefixo do ID
+        if (id.startsWith('guia-')) {
+            const section = document.getElementById('section-' + id.split('-')[1]);
+            if (checkbox.checked) section.classList.add('completed-section');
+            else section.classList.remove('completed-section');
+            renderGuideProgress();
+        } else {
+            const listItem = document.getElementById(`li-${id}`);
+            if (checkbox.checked) listItem.classList.add('completed');
+            else listItem.classList.remove('completed');
+            renderTrailProgress();
+        }
+    }
+
+
+    // --- LÓGICA DO GUIA TEÓRICO ---
+    const totalGuideSections = 5;
+
+    function renderGuideProgress() {
         let completed = 0;
-        for(let i = 1; i <= totalSections; i++) {
-            const isChecked = localStorage.getItem('guia-read-' + i) === 'true';
-            const checkbox = document.getElementById('check-' + i);
+        for(let i = 1; i <= totalGuideSections; i++) {
+            const id = 'guia-' + i;
+            const checkbox = document.getElementById(id);
             const section = document.getElementById('section-' + i);
             
             if(checkbox && section) {
-                checkbox.checked = isChecked;
-                if(isChecked) {
+                const isCompleted = !!userProgress[id];
+                checkbox.checked = isCompleted;
+                if(isCompleted) {
                     completed++;
                     section.classList.add('completed-section');
                 } else {
@@ -679,19 +698,9 @@
             }
         }
         
-        const percentage = Math.round((completed / totalSections) * 100);
+        const percentage = Math.round((completed / totalGuideSections) * 100);
         document.getElementById('guide-progress-bar').style.width = percentage + '%';
         document.getElementById('guide-progress-text').innerText = `${percentage}% LIDO`;
-    }
-
-    function toggleGuideProgress(id) {
-        const checkbox = document.getElementById('check-' + id);
-        if(checkbox.checked) {
-            localStorage.setItem('guia-read-' + id, 'true');
-        } else {
-            localStorage.removeItem('guia-read-' + id);
-        }
-        updateGuideProgress();
     }
 
 
@@ -721,8 +730,8 @@
                 { "classId": "genai-2-1", "title": "O que são LLMs e como funcionam?", "link": "https://www.youtube.com/watch?v=zjkBMFhNj_g" },
                 { "classId": "genai-2-2", "title": "Prompt Engineering Guide (OpenAI)", "link": "https://platform.openai.com/docs/guides/prompt-engineering" },
                 { "classId": "genai-2-3", "title": "Técnicas: Zero-shot, Few-shot e CoT", "link": "https://www.promptingguide.ai/techniques" },
-                { "classId": "genai-2-4", "title": "Consumindo a API da OpenAI", "link": "https://platform.openai.com/docs/quickstart" },
-                { "classId": "genai-2-5", "title": "Modelos Open Source (Groq/Ollama)", "link": "https://console.groq.com/docs/quickstart" }
+                { "classId": "genai-2-4", "title": "Consumindo a API da OpenAI", "link": "https://platform.openai.com/docs/quickstart", "isNew": true },
+                { "classId": "genai-2-5", "title": "Modelos Open Source (Groq/Ollama)", "link": "https://console.groq.com/docs/quickstart", "isNew": true }
               ]
             }
           ]
@@ -801,40 +810,7 @@
       ]
     };
 
-    let totalClasses = 0;
-
-    function updateTrailProgress() {
-        let completedClasses = 0;
-        
-        learningPath.courses.forEach(course => {
-            course.modules.forEach(mod => {
-                mod.classes.forEach(cls => {
-                    if (localStorage.getItem(cls.classId) === 'completed') {
-                        completedClasses++;
-                    }
-                });
-            });
-        });
-
-        const percentage = totalClasses === 0 ? 0 : Math.round((completedClasses / totalClasses) * 100);
-        
-        document.getElementById('trail-progress-bar').style.width = percentage + '%';
-        document.getElementById('trail-progress-text').innerText = `${percentage}% CONCLUÍDO`;
-    }
-
-    function toggleTrailProgress(classId) {
-        const checkbox = document.getElementById(classId);
-        const listItem = document.getElementById(`li-${classId}`);
-
-        if (checkbox.checked) {
-            localStorage.setItem(classId, 'completed');
-            listItem.classList.add('completed');
-        } else {
-            localStorage.removeItem(classId);
-            listItem.classList.remove('completed');
-        }
-        updateTrailProgress();
-    }
+    let totalTrailClasses = 0;
 
     function renderApp() {
         let html = '';
@@ -849,15 +825,18 @@
                             <ul class="classes">`;
                 
                 mod.classes.forEach(cls => {
-                    totalClasses++; 
-                    const isCompleted = localStorage.getItem(cls.classId) === 'completed';
+                    totalTrailClasses++; 
+                    const isCompleted = !!userProgress[cls.classId];
+                    const badgeHtml = cls.isNew ? `<span class="badge-new">NOVO</span>` : '';
                     
                     html += `
                         <li class="class-item ${isCompleted ? 'completed' : ''}" id="li-${cls.classId}">
                             <label class="checkbox-label">
-                                <input type="checkbox" id="${cls.classId}" onchange="toggleTrailProgress('${cls.classId}')" ${isCompleted ? 'checked' : ''}>
+                                <input type="checkbox" id="${cls.classId}" onchange="toggleProgress('${cls.classId}')" ${isCompleted ? 'checked' : ''}>
                             </label>
-                            <a href="${cls.link}" target="_blank" rel="noopener noreferrer" class="class-link">${cls.title}</a>
+                            <a href="${cls.link}" target="_blank" rel="noopener noreferrer" class="class-link">
+                                ${cls.title} ${badgeHtml}
+                            </a>
                         </li>`;
                 });
                 
@@ -868,36 +847,55 @@
         });
 
         document.getElementById('app').innerHTML = html;
-        updateTrailProgress();
+        renderTrailProgress();
     }
 
-    // --- FUNÇÃO GLOBAL DE RESET ---
-    function resetAllProgress() {
-        if (confirm("Tem certeza que deseja zerar todo o seu histórico de progresso (Guia Teórico e Aulas)?")) {
-            for(let i = 1; i <= totalSections; i++) {
-                localStorage.removeItem('guia-read-' + i);
-            }
-            
-            learningPath.courses.forEach(course => {
-                course.modules.forEach(mod => {
-                    mod.classes.forEach(cls => {
-                        localStorage.removeItem(cls.classId);
-                        const checkbox = document.getElementById(cls.classId);
-                        const listItem = document.getElementById(`li-${cls.classId}`);
-                        if (checkbox) checkbox.checked = false;
-                        if (listItem) listItem.classList.remove('completed');
-                    });
+    function renderTrailProgress() {
+        let completedClasses = 0;
+        
+        learningPath.courses.forEach(course => {
+            course.modules.forEach(mod => {
+                mod.classes.forEach(cls => {
+                    if (userProgress[cls.classId]) {
+                        completedClasses++;
+                    }
                 });
             });
+        });
 
-            updateGuideProgress();
-            updateTrailProgress();
+        const percentage = totalTrailClasses === 0 ? 0 : Math.round((completedClasses / totalTrailClasses) * 100);
+        
+        document.getElementById('trail-progress-bar').style.width = percentage + '%';
+        document.getElementById('trail-progress-text').innerText = `${percentage}% CONCLUÍDO`;
+    }
+
+    // --- FUNÇÃO DE RESET GLOBAL E MIGRAÇÃO ---
+    function resetAllProgress() {
+        if (confirm("Tem certeza que deseja zerar todo o seu histórico de progresso (Guia Teórico e Aulas)?")) {
+            userProgress = {};
+            saveProgressData();
+            
+            // Força a atualização visual recarregando a página (forma mais limpa de resetar a UI inteira)
+            window.location.reload();
         }
     }
 
-    // Inicializa
-    updateGuideProgress();
+    // Limpa chaves antigas se o usuário já havia testado a versão anterior do repositório (Migração)
+    function clearLegacyStorage() {
+        if(localStorage.getItem('genai-1-1') === 'completed') {
+            // Varre o localStorage e apaga lixo antigo
+            Object.keys(localStorage).forEach(key => {
+                if(key !== 'theme' && key !== STORAGE_KEY) {
+                    localStorage.removeItem(key);
+                }
+            });
+        }
+    }
+
+    // Inicialização do APP
+    clearLegacyStorage();
     renderApp();
+    renderGuideProgress();
 
 </script>
 
